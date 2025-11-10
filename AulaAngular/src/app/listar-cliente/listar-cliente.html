@@ -1,0 +1,87 @@
+<div class="row mt-3 mb-3">
+    <div class="col-md-9">
+        <input [(ngModel)]="nome" type="text" class="form-control" placeholder="Pesquisar clientes..." />
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn-secondary">Pesquisar</button>
+        <button type="button" class="btn btn-primary">
+            <i class="bi bi-plus"></i> Novo</button>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <input type="checkbox" id="mostrarTabela" [(ngModel)]="mostrarTabela" />
+        <label for="mostrarTabela"> Mostrar Tabela</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @if(mostrarTabela) {
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Foto</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Celular</th>
+                    <th scope="col">Cidade</th>
+                    <th scope="col">Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (c of clientes; track $index) {
+                <tr>
+                    <td>
+                        <img style="width: 100px;" [src]="c.imagem">
+                    </td>
+                    <td scope="row">{{c.id}}</td>
+                    <td [ngStyle]="{'background-color': 
+                        c.nome === nome ? 
+                        'yellow' : 'white'}">{{c.nome}}</td>
+                    <td>{{c.celular}}</td>
+                    <td [ngClass]="{'SaoPaulo': 
+                    c.cidade === 'São Paulo'}">{{c.cidade}}</td>
+                    <td>
+                        @switch (c.cidade) {
+                        @case ("São Paulo") {
+                        <span class="badge bg-success">Ativo</span>
+                        }
+                        @case ("Rio de Janeiro") {
+                        <span class="badge bg-warning text-dark">Pendente</span>
+                        }
+                        @default {
+                        <span class="badge bg-secondary">Inativo</span>
+                        }
+                        }
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-info" (click)="clienteSelecionado = c">
+                            Selecionar</button>
+                        <button class="btn btn-sm btn-danger" (click)="excluirCliente(c.id)">Excluir</button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+        }
+    </div>
+</div>
+
+<!-- Detalhe do item selecionado-->
+@if(clienteSelecionado != null) {
+<div class="row mt-3">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Detalhes do Cliente</h5>
+                <p>Nome: {{clienteSelecionado?.nome}}</p>
+                <p>Celular: {{clienteSelecionado?.celular}}</p>
+                <p>Cidade: {{clienteSelecionado?.cidade}}</p>
+                <button type="button" class="btn btn-secondary" (click)="clienteSelecionado = null">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
