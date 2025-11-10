@@ -1,4 +1,3 @@
-// minhaAPI/controllers/professorController.js
 
 let professores = [
   {
@@ -33,26 +32,22 @@ let professores = [
   }
 ];
 
-// Listar todos
 exports.listarProfessores = (req, res) => {
   res.json(professores);
 };
 
-// Buscar por id
 exports.buscarProfessorPorId = (req, res) => {
   const professor = professores.find(p => p.id === req.params.id);
   if (!professor) return res.status(404).send("Id não existente");
   res.json(professor);
 };
 
-// Listar turmas de um professor
 exports.listarTurmas = (req, res) => {
   const professor = professores.find(p => p.id === req.params.id);
   if (!professor) return res.status(404).send("Id não existente");
   res.json(professor.turmas);
 };
 
-// Atualizar professor
 exports.atualizarProfessor = (req, res) => {
   const professor = professores.find(p => p.id === req.params.id);
   if (!professor) return res.status(404).send("Id não existente");
@@ -65,7 +60,7 @@ exports.atualizarProfessor = (req, res) => {
   res.json(professor);
 };
 
-// Adicionar turma
+
 exports.adicionarTurma = (req, res) => {
   const professor = professores.find(p => p.id === req.params.id);
   if (!professor) return res.status(404).send("Id não existente");
@@ -79,14 +74,12 @@ exports.adicionarTurma = (req, res) => {
   res.status(201).json(professor);
 };
 
-// Listar por departamento
 exports.listarPorDepartamento = (req, res) => {
   const dep = req.params.departamento.toLowerCase();
   const filtrados = professores.filter(p => p.departamento.toLowerCase() === dep);
   res.json(filtrados);
 };
 
-// Remover professor
 exports.removerProfessor = (req, res) => {
   const index = professores.findIndex(p => p.id === req.params.id);
   if (index === -1) return res.status(404).send("Id não existente");
